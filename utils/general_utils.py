@@ -1,0 +1,16 @@
+import json
+import os
+
+from flask import Response
+
+response_format = os.environ.get('response_format', 'application/json')
+
+
+def obj_to_dict(obj=None):
+    if obj is None:
+        obj = {}
+    return json.dumps(obj.__dict__)
+
+
+def response_formatter(body, status: int):
+    return Response(body, status=status, mimetype=response_format, content_type=response_format)

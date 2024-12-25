@@ -1,0 +1,12 @@
+
+/Battles
+    Post
+        Make chat. Req user_id of initiating trainer.
+        Generates Battle_id format 20241231-12 where 12 is the 12th battle of the day.
+    GET
+        Get details of all active battles.
+        {Battle_Id, Initiating Trainer id, target_id (be it wild, trainer, or None)},
+    /<Battle_Id>
+        GET
+            get details of current battle
+
