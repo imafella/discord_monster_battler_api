@@ -19,13 +19,12 @@ logging.basicConfig(
 )
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
-response_format = os.environ.get('battle_routes_response_format', 'application/json')
 
-battle_bp = Blueprint('tamer', __name__)
+tamer_bp = Blueprint('tamer', __name__)
 
 
-@battle_bp.route('/tamer', methods=['POST'])
-def post_battle():
+@tamer_bp.route('/tamer', methods=['POST'])
+def post_tamer():
     api_request = request.json
     initiating_tamer_id = api_request.get("initiating_id", None)
     new_battle = Battle(initiating_id=initiating_tamer_id, target_id=api_request.get('target_id', None))
