@@ -1,5 +1,8 @@
 
-/user
+/tamer
+    POST
+        Add new tamer to the DB
+
 /Battle
     Post
         Make chat. Req user_id of initiating trainer.

@@ -61,7 +61,8 @@ class Tamer:
                     new_monster_for_tamer_monster_storage)),
                 "monsters_in_tamer_monster_storage": len(self.tamer_monster_storage),
                 "error": "Too many monsters in tamer_monster_storage to add to tamer monster storage. "
-                         "Please resolve this."
+                         "Please resolve this.",
+                "error_code": 405
             }
             self.logger.log(message=output)
             return output
@@ -106,6 +107,44 @@ class Tamer:
         selected_monster = self.tamer_monster_storage.pop(index)
         return self.add_monster_to_party(new_monster=selected_monster)
 
+    def remove_monster(self,monster_id):
+        index_party = get_monster_index(monster_id=monster_id, monster_list=self.tamer_party)
+        index_tamer_monster_storage = None
+        if index_party is None:
+            index_tamer_monster_storage = get_monster_index(monster_id=monster_id, monster_list=self.tamer_monster_storage)
+            if index_tamer_monster_storage is None:
+                output = {
+                    "class": "Tamer_Models",
+                    "Method": "remove_monster",
+                    "tamer_id": self.tamer_id,
+                    "monster_id": monster_id,
+                    "error": f"Monster: {monster_id} is not owned by the tamer.",
+                    "error_code": 404
+                }
+            else:
+                removed_monster = self.tamer_monster_storage.pop(index_tamer_monster_storage)
+                output = {
+                    "class": "Tamer_Models",
+                    "Method": "remove_monster",
+                    "tamer_id": self.tamer_id,
+                    "monster_id": monster_id,
+                    "message": f"Monster: {removed_monster.monster_name} has been removed from the "
+                               f"tamer_monster_storage."
+                }
+        else:
+            removed_monster = self.tamer_party.pop(index_party)
+            output = {
+                "class": "Tamer_Models",
+                "Method": "remove_monster",
+                "tamer_id": self.tamer_id,
+                "monster_id": monster_id,
+                "message": f"Monster: {removed_monster.monster_name} has been removed from the "
+                           f"tamer_party."
+            }
+
+        self.logger.log(message=output)
+        return output
+
     #TODO check if battle_id is an active battle
     def start_battle(self, battle_id):
         output ={
@@ -135,7 +174,8 @@ class Tamer:
                 "Method": "start_battle",
                 "tamer_id": self.tamer_id,
                 "new_active_battle_id": self.active_battle_id,
-                "error": f"{self.tamer_id} is not in an active battle."
+                "error": f"{self.tamer_id} is not in an active battle.",
+                "error_code": 405
             }
         self.active_battle_id = None
         return output
