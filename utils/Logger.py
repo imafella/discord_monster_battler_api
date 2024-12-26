@@ -28,6 +28,6 @@ class MyLogger:
             self.fileHandler.setFormatter(self.logFormatter)
             self.rootLogger.addHandler(self.fileHandler)
         output = f"Logger:\n{json.dumps(message)}\n"
-        self.rootLogger.debug(output)
+        # self.rootLogger.debug(output)
         print(output)
 

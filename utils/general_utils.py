@@ -17,4 +17,4 @@ def generate_id(header):
 
 
 def response_formatter(body, status: int):
-    return Response(json.dumps(body), status=status, mimetype=response_format, content_type=response_format)
+    return Response(body, status=status, mimetype=response_format, content_type=response_format)

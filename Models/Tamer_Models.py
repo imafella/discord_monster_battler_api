@@ -51,7 +51,6 @@ class Tamer:
         }
         self.logger.log(message=output)
 
-
     def add_monster_to_party(self, new_monster: Monster):
         if len(self.tamer_party) > 5:
             output = {
@@ -134,11 +133,12 @@ class Tamer:
         selected_monster = self.tamer_monster_storage.pop(index)
         return self.add_monster_to_party(new_monster=selected_monster)
 
-    def remove_monster(self,monster_id):
+    def remove_monster(self, monster_id):
         index_party = get_monster_index(monster_id=monster_id, monster_list=self.tamer_party)
         index_tamer_monster_storage = None
         if index_party is None:
-            index_tamer_monster_storage = get_monster_index(monster_id=monster_id, monster_list=self.tamer_monster_storage)
+            index_tamer_monster_storage = get_monster_index(monster_id=monster_id,
+                                                            monster_list=self.tamer_monster_storage)
             if index_tamer_monster_storage is None:
                 output = {
                     "class": "Tamer_Models",
@@ -172,9 +172,9 @@ class Tamer:
         self.logger.log(message=output)
         return output
 
-    #TODO check if battle_id is an active battle
+    # TODO check if battle_id is an active battle
     def start_battle(self, battle_id):
-        output ={
+        output = {
             "class": "Tamer_Models",
             "Method": "start_battle",
             "tamer_id": self.tamer_id,
