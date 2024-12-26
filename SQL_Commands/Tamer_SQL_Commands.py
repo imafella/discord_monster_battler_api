@@ -9,11 +9,16 @@ from Connectors.dbConnector import monster_battler_db_connector as db_con
 
 connection = db_con()
 
+def does_tamer_exist(discord_id: str):
+    jsonArray = get_tamer(discord_id=discord_id)
+    if len(jsonArray) == 0:
+        return False
+    return True
 def insert_tamer(discord_id:str):
     sql = f"insert into tamers (tamer_id, tamer_party, tamer_monster_storage) values('{discord_id}', '[]', '[]');"
     return connection.insertCall(sql)
 def get_tamer(discord_id:str):
-    sql = f"select * from tamers where tamer_id = '{discord_id}"
+    sql = f"select * from tamers where tamer_id = '{discord_id}';"
     return connection.selectCall(sql)
 
 def update_tamer_party(discord_id:str, tamer_party: List[str]):
@@ -36,5 +41,7 @@ def update_battle_status(discord_id:str, battle_id:str = 'null'):
     """
     Can be used to either give a tamer an active battle or clear it.
     """
-    sql = f"update tamers set active_battle_id = {battle_id if battle_id is 'null' else '\''+battle_id+'\''} where tamer_id = '{discord_id}' and archived = false;"
+    if battle_id != 'null':
+        battle_id = "\'"+battle_id+"\'"
+    sql = f"update tamers set active_battle_id = {battle_id} where tamer_id = '{discord_id}' and archived = false;"
     return connection.insertCall(sql)

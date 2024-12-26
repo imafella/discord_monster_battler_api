@@ -7,7 +7,9 @@ from typing import List
 sys.path.append('..utils')
 from utils import general_utils
 from utils.Logger import MyLogger as logger
-from Monster_Models import Monster
+
+sys.path.append('..Models')
+from Models.Monster_Models import Monster
 
 
 def get_monster_index(monster_id: str, monster_list: List[Monster]):
@@ -24,6 +26,31 @@ class Tamer:
         self.tamer_monster_storage = []
         self.active_battle_id = None
         self.logger = logger()
+        output = {
+            "class": "Tamer_Models",
+            "Method": "__init__",
+            "tamer_id": self.tamer_id,
+            "monsters_in_party": len(self.tamer_party),
+            "monsters_in_tamer_monster_storage": len(self.tamer_monster_storage),
+            "message": f"Initialized Tamer: {self.tamer_id}"
+        }
+        self.logger.log(message=output)
+
+    def from_json(self, tamer_json: dict):
+        self.tamer_id = tamer_json.get('tamer_id', None)
+        self.tamer_party = json.loads(tamer_json.get('tamer_party', "[]"))
+        self.tamer_monster_storage = json.loads(tamer_json.get('tamer_monster_storage', "[]"))
+        self.active_battle_id = tamer_json.get('active_battle_id', None)
+        output = {
+            "class": "Tamer_Models",
+            "Method": "from_json",
+            "tamer_id": self.tamer_id,
+            "monsters_in_party": len(self.tamer_party),
+            "monsters_in_tamer_monster_storage": len(self.tamer_monster_storage),
+            "message": f"Loaded Tamer: {self.tamer_id}"
+        }
+        self.logger.log(message=output)
+
 
     def add_monster_to_party(self, new_monster: Monster):
         if len(self.tamer_party) > 5:
@@ -179,3 +206,15 @@ class Tamer:
             }
         self.active_battle_id = None
         return output
+
+    def get_party_list(self):
+        party_list = []
+        for monster in self.tamer_party:
+            party_list.append(monster.monster_id)
+        return party_list
+
+    def get_tamer_monster_storage_list(self):
+        tamer_monster_storage_list = []
+        for monster in self.tamer_monster_storage:
+            tamer_monster_storage_list.append(monster.monster_id)
+        return tamer_monster_storage_list

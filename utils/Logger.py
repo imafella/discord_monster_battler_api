@@ -27,5 +27,7 @@ class MyLogger:
                 "{0}/{1}.log".format(os.environ.get("logPath", ""), f"{self.this_date}.log"))
             self.fileHandler.setFormatter(self.logFormatter)
             self.rootLogger.addHandler(self.fileHandler)
+        output = f"Logger:\n{json.dumps(message)}\n"
+        self.rootLogger.debug(output)
+        print(output)
 
-        self.rootLogger.debug(f"Logger:\n{json.dumps(message)}\n")

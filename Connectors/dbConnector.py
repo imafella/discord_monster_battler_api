@@ -4,7 +4,7 @@
 import json
 import os
 
-import mysql.connector
+from mysql import connector
 
 
 class monster_battler_db_connector:
@@ -22,9 +22,9 @@ class monster_battler_db_connector:
     # Sets up the config
 
     def connectToDB(self):
-        self.dbConnection = mysql.connector.connect(user=self.db_username, password=self.db_password, host=self.db_host,
-                                                    database=self.db_name
-                                                    )
+        self.dbConnection = connector.connect(user=self.db_username, password=self.db_password, host=self.db_host,
+                                              database=self.db_name
+                                              )
         self.cursor = self.dbConnection.cursor(buffered=True)
 
     def closeConnectionToDB(self):

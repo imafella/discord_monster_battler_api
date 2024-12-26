@@ -1,13 +1,15 @@
 import os
 
 from flask import Flask
+
+from Routes.tamer_routes import tamer_bp
 from utils.PrefixMiddleware import PrefixMiddleware
 
 app = Flask(__name__)
 app.debug = True
 version = os.environ.get('version', 'v1')
 app.wsgi_app = PrefixMiddleware(app.wsgi_app, prefix=f'/api/{version}')
-
+app.register_blueprint(tamer_bp)
 
 @app.route('/<name>')
 def print_hi(name):

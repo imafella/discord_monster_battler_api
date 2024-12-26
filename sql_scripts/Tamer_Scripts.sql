@@ -6,5 +6,5 @@ select * from monster_battler.tamers;
 use monster_battler;
 insert into tamers (tamer_id, tamer_party, tamer_monster_storage) values('bob', '[]', '[]');
 update tamers set active_battle_id = 'B-101' where tamer_id = 'bob' and archived = false;
-update tamers set active_battle_id = null where tamer_id = 'bob' and archived = false;
+update tamers set active_battle_id = 'null' where tamer_id = 'bob' and archived = false;
 

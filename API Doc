@@ -2,6 +2,11 @@
 /tamer
     POST
         Add new tamer to the DB
+    PATCH
+
+    GET
+
+    DELETE
 
 /Battle
     Post

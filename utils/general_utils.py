@@ -11,8 +11,10 @@ def obj_to_dict(obj=None):
         obj = {}
     return json.dumps(obj.__dict__)
 
+
 def generate_id(header):
     return datetime.now().strftime(f'{header}-%Y%m%d%H%M%S')
 
+
 def response_formatter(body, status: int):
-    return Response(body, status=status, mimetype=response_format, content_type=response_format)
+    return Response(json.dumps(body), status=status, mimetype=response_format, content_type=response_format)

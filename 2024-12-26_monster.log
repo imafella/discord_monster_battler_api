@@ -1,0 +1,16 @@
+2024-12-26 01:04:16,337  * Debugger is active!
+2024-12-26 01:04:16,345  * Debugger PIN: 662-157-401
+2024-12-26 01:04:21,996 Logger:
+{"class": "Tamer_Models", "Method": "__init__", "tamer_id": null, "monsters_in_party": 0, "monsters_in_tamer_monster_storage": 0, "message": "Initialized Tamer: None"}
+
+2024-12-26 01:04:21,997 Logger:
+{"class": "Tamer_Models", "Method": "from_json", "tamer_id": "Mew", "monsters_in_party": 0, "monsters_in_tamer_monster_storage": 0, "message": "Loaded Tamer: Mew"}
+
+2024-12-26 01:04:21,997 127.0.0.1 - - [26/Dec/2024 01:04:21] "GET /api/v1/tamer/Mew HTTP/1.1" 200 -
+2024-12-26 01:04:56,307 Logger:
+{"class": "Tamer_Models", "Method": "__init__", "tamer_id": null, "monsters_in_party": 0, "monsters_in_tamer_monster_storage": 0, "message": "Initialized Tamer: None"}
+
+2024-12-26 01:04:56,308 Logger:
+{"class": "Tamer_Models", "Method": "from_json", "tamer_id": "Mew", "monsters_in_party": 0, "monsters_in_tamer_monster_storage": 0, "message": "Loaded Tamer: Mew"}
+
+2024-12-26 01:04:56,309 127.0.0.1 - - [26/Dec/2024 01:04:56] "GET /api/v1/tamer/Mew HTTP/1.1" 200 -
