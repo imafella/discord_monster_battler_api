@@ -16,5 +16,5 @@ def generate_id(header):
     return datetime.now().strftime(f'{header}-%Y%m%d%H%M%S')
 
 
-def response_formatter(body, status: int):
-    return Response(body, status=status, mimetype=response_format, content_type=response_format)
+def response_formatter(body: dict, status: int):
+    return Response(json.dumps(body), status=status, mimetype=response_format, content_type=response_format)

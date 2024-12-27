@@ -4,15 +4,15 @@ from datetime import datetime
 import logging
 from typing import List
 
-sys.path.append('..utils')
-from utils import general_utils
-from utils.Logger import MyLogger as logger
 
-sys.path.append('..Models')
+from utils import general_utils
+from utils.Logger import MyLogger as Logger
+
+
 from Models.Monster_Models import Monster
 
 
-def get_monster_index(monster_id: str, monster_list: List[Monster]):
+def get_monster_party_index(monster_id: str, monster_list: List[Monster]):
     for index, monster in enumerate(monster_list):
         if monster_id is monster.monster_id:
             return index
@@ -25,7 +25,7 @@ class Tamer:
         self.tamer_party = []
         self.tamer_monster_storage = []
         self.active_battle_id = None
-        self.logger = logger()
+        self.logger = Logger()
         output = {
             "class": "Tamer_Models",
             "Method": "__init__",
@@ -50,6 +50,18 @@ class Tamer:
             "message": f"Loaded Tamer: {self.tamer_id}"
         }
         self.logger.log(message=output)
+
+    def get_monster_tamer_monster_storage_index(self, monster_id: str):
+        for index, storage_monster_id in enumerate(self.tamer_monster_storage):
+            if monster_id is storage_monster_id:
+                return index
+        return None
+
+    def get_monster_party_index(self, monster_id: str):
+        for index, monster in enumerate(self.tamer_party):
+            if monster_id is monster.monster_id:
+                return index
+        return None
 
     def add_monster_to_party(self, new_monster: Monster):
         if len(self.tamer_party) > 5:
@@ -92,7 +104,7 @@ class Tamer:
             }
             self.logger.log(message=output)
             return output
-        self.tamer_monster_storage.append(new_monster_for_tamer_monster_storage)
+        self.tamer_monster_storage.append(new_monster_for_tamer_monster_storage.monster_id)
         output = {
             "class": "Tamer_Models",
             "Method": "add_monster_to_tamer_monster_storage",
@@ -104,7 +116,7 @@ class Tamer:
         return output
 
     def move_monster_to_tamer_monster_storage_from_party(self, monster_id):
-        index = get_monster_index(monster_id=monster_id, monster_list=self.tamer_party)
+        index = get_monster_party_index(monster_id=monster_id, monster_list=self.tamer_party)
         if index is None:
             output = {
                 "class": "Tamer_Models",
@@ -118,15 +130,16 @@ class Tamer:
         selected_monster = self.tamer_party.pop(index)
         return self.add_monster_to_tamer_monster_storage(new_monster_for_tamer_monster_storage=selected_monster)
 
-    def move_monster_to_party_from_tamer_monster_storage(self, monster_id):
-        index = get_monster_index(monster_id=monster_id, monster_list=self.tamer_monster_storage)
+    def move_monster_to_party_from_tamer_monster_storage(self, monster: Monster):
+        index = self.get_monster_tamer_monster_storage_index(monster_id=monster.monster_id)
         if index is None:
             output = {
                 "class": "Tamer_Models",
                 "Method": "move_monster_to_party_from_tamer_monster_storage",
                 "tamer_id": self.tamer_id,
-                "monster_id": monster_id,
-                "message": f"Monster: {monster_id} is not in the tamer_party."
+                "monster_id": monster.monster_id,
+                "error": f"Monster: {monster.monster_id} is not in the tamer_monster_storage.",
+                "error_code": 404
             }
             self.logger.log(message=output)
             return output
@@ -134,11 +147,10 @@ class Tamer:
         return self.add_monster_to_party(new_monster=selected_monster)
 
     def remove_monster(self, monster_id):
-        index_party = get_monster_index(monster_id=monster_id, monster_list=self.tamer_party)
+        index_party = self.get_monster_party_index(monster_id=monster_id)
         index_tamer_monster_storage = None
         if index_party is None:
-            index_tamer_monster_storage = get_monster_index(monster_id=monster_id,
-                                                            monster_list=self.tamer_monster_storage)
+            index_tamer_monster_storage = self.get_monster_tamer_monster_storage_index(monster_id=monster_id)
             if index_tamer_monster_storage is None:
                 output = {
                     "class": "Tamer_Models",
@@ -218,3 +230,10 @@ class Tamer:
         for monster in self.tamer_monster_storage:
             tamer_monster_storage_list.append(monster.monster_id)
         return tamer_monster_storage_list
+
+
+    def to_dict(self):
+        return {'tamer_id':self.tamer_id, "tamer_party":self.tamer_party,
+                "tamer_monster_storage":self.tamer_monster_storage, "active_battle_id":self.active_battle_id}
+
+

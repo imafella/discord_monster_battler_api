@@ -21,6 +21,10 @@ def get_tamer(discord_id:str):
     sql = f"select * from tamers where tamer_id = '{discord_id}';"
     return connection.selectCall(sql)
 
+def get_tamers():
+    sql = f"select * from tamers where archived = false;"
+    return connection.selectCall(sql)
+
 def update_tamer_party(discord_id:str, tamer_party: List[str]):
     sql = f"update tamers set tamer_party = '{tamer_party}' where tamer_id = '{discord_id}' and archived = false;"
     return connection.insertCall(sql)
